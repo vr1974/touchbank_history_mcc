@@ -1,2 +1,2 @@
-# touchbank_history_mcc
-TouchBank History MCC
+# TouchBank History MCC
+Show MCC in history in internet bank of TouchBank
