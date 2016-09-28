@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TouchBank History MCC
 // @namespace    https://github.com/alezhu/touchbank_history_mcc
-// @version      0.1
+// @version      0.2
 // @description  Show MCC in history in internet bank of TouchBank
 // @author       alezhu
 // @match        https://www.touchbank.com/lk/cards*
@@ -47,7 +47,7 @@
     }
 
     function ReplaceAccountTemplateHTML(htmlOrig) {
-        return htmlOrig.replace(/(<td[^>]+>)\s*({{\s*historyItem.comment\s*}})/i, '$1<span ng-if="historyItem.salePointCode">MCC: {{historyItem.salePointCode}}&nbsp;</span>$2');
+        return htmlOrig.replace(/(<td[^>]+>)\s*({{\s*historyItem.operationComment\s*}})/i, '$1<span ng-if="historyItem.mcccode">MCC: {{historyItem.mcccode}}&nbsp;</span>$2');
     }
 
     function replaceTemplate($templateCache, url) {
@@ -133,7 +133,7 @@
                             var end = response.data.indexOf('</table>', start);
                             if (end >= 0) {
                                 var html = response.data.substring(start, end);
-                                html = html.replace(/({{\s*historyItem.comment\s*}})/i, '<span ng-if="historyItem.salePointCode">MCC: {{historyItem.salePointCode}}&nbsp;</span>$1')
+                                html = html.replace(/({{\s*historyItem.operationComment\s*}})/i, '<span ng-if="historyItem.mcccode">MCC: {{historyItem.mcccode}}&nbsp;</span>$1');
                                 table.html(html);
                                 $compile(table)(scope);
                                 //scope.$digest();
