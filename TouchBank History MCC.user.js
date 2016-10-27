@@ -6,9 +6,9 @@
 // @author       alezhu + v.r.
 // @match        https://www.touchbank.com/lk/cards*
 // @grant        none
-// @source       https://raw.githubusercontent.com/alezhu/touchbank_history_mcc/master/TouchBank%20History%20MCC.user.js
-// @updateURL    https://raw.githubusercontent.com/alezhu/touchbank_history_mcc/master/TouchBank%20History%20MCC.user.js
-// @downloadURL  https://raw.githubusercontent.com/alezhu/touchbank_history_mcc/master/TouchBank%20History%20MCC.user.js
+// @source       https://github.com/vr1974/touchbank_history_mcc/raw/master/TouchBank%20History%20MCC.user.js
+// @updateURL    https://github.com/vr1974/touchbank_history_mcc/raw/master/TouchBank%20History%20MCC.user.js
+// @downloadURL  https://github.com/vr1974/touchbank_history_mcc/raw/master/TouchBank%20History%20MCC.user.js
 // ==/UserScript==
 /* jshint -W097 */
 'use strict';
