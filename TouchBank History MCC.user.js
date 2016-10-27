@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         TouchBank History MCC
 // @namespace    https://github.com/alezhu/touchbank_history_mcc
-// @version      0.2
+// @version      0.3
 // @description  Show MCC in history in internet bank of TouchBank
-// @author       alezhu
+// @author       alezhu + v.r.
 // @match        https://www.touchbank.com/lk/cards*
 // @grant        none
 // @source       https://raw.githubusercontent.com/alezhu/touchbank_history_mcc/master/TouchBank%20History%20MCC.user.js
@@ -14,7 +14,7 @@
 'use strict';
 
 (function(window, angular, $) {
-    var LOG = 0;
+    var LOG = 1;
     if (LOG) console.log('TouchBank History MCC');
 
     function _waitDfd(dfd, context, waitFn) {
@@ -92,7 +92,8 @@
             account.injector().invoke(function($compile, $http, $templateCache, $rootScope) {
                 if (LOG) console.log('Inject');
                 ///static/otp
-                var url = $rootScope.ResourceRoot + "/widgets/account/view/history/cards.html";
+                var url = $rootScope.ResourceRoot + "/widgets/account/view/history/card.html";
+                if (LOG) console.log('URL' + url);
                 scope.$watch('model.type', function(newValue, oldValue, scope) {
                     if (LOG) console.log('model.type:', oldValue, '->', newValue);
                     if (newValue === 'cards' && !scope.cardsReplaced) {
@@ -111,6 +112,42 @@
         });
     }
 
+    function getAccountItems() {
+        return _wait({}, function(context) {
+            context.items = angular.element('tr[ng-repeat="historyItem in model.history"]');
+            return context.items.length > 0;
+        });
+    }
+    
+    function processAccount1() {
+        getAccountItems().done(function(context) {
+            if (LOG) console.log('Account found');
+            var table = context.items.parent().parent();
+            var scope = table.scope();
+            table.injector().invoke(function($compile, $http, $rootScope) {
+                var url = $rootScope.ResourceRoot + "/widgets/account/view/history/card.html";
+                if (LOG) console.log('URL = ' + url);
+                $http.get(url).then(function(response) {
+                    var start = response.data.indexOf('class="widget-block-body"');
+                    if (LOG) console.log('STA = ' + start);
+                    if (start >= 0) {
+                        start = response.data.indexOf('<tr', start);
+                        if (start >= 0) {
+                            var end = response.data.indexOf('</table>', start);
+                            if (end >= 0) {
+                                var html = response.data.substring(start, end);
+                                html = html.replace(/({{\s*historyItem.operationComment\s*}})/i, '<span ng-if="historyItem.mcccode">MCC: {{historyItem.mcccode}} / loyaltyGroup: {{historyItem.loyaltyGroup}} / isFavorite: {{historyItem.isFavorite}} / loyaltyPoints: {{historyItem.loyaltyPoints}}&nbsp;<br /></span>$1');
+                                table.html(html);
+                                $compile(table)(scope);
+                                //scope.$digest();
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    }
+    
     function getHistoryItems() {
         return _wait({}, function(context) {
             context.items = angular.element('tr[ng-repeat="historyItem in model.history"]');
@@ -148,8 +185,10 @@
     angular.element(document).ready(function() {
         if (LOG) console.log('ready');
         if (window.location.href.indexOf('cards/account') >= 0) {
-            processAccount();
+            if (LOG) console.log('processAccount');
+            processAccount1();
         } else {
+            if (LOG) console.log('processHistory');
             processHistory();
         }
     });
