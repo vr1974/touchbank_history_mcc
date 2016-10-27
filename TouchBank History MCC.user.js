@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TouchBank History MCC
-// @namespace    https://github.com/alezhu/touchbank_history_mcc
+// @namespace    https://github.com/vr1974/touchbank_history_mcc
 // @version      0.3
 // @description  Show MCC in history in internet bank of TouchBank
 // @author       alezhu + v.r.
