@@ -136,7 +136,7 @@
                             var end = response.data.indexOf('</table>', start);
                             if (end >= 0) {
                                 var html = response.data.substring(start, end);
-                                html = html.replace(/({{\s*historyItem.operationComment\s*}})/i, '<span ng-if="historyItem.mcccode">MCC: {{historyItem.mcccode}} / Категория: {{historyItem.loyaltyGroup}}<span ng-if="<span ng-if="historyItem.isFavorite"> ♥</span> / Бонусов: {{historyItem.loyaltyPoints}}&nbsp;<br /></span>$1');
+                                html = html.replace(/({{\s*historyItem.operationComment\s*}})/i, '<span ng-if="historyItem.mcccode">MCC: {{historyItem.mcccode}} / Категория: {{historyItem.loyaltyGroup}}<span ng-if="historyItem.isFavorite"> ♥</span> / Бонусов: {{historyItem.loyaltyPoints}}&nbsp;<br /></span>$1');
                                 table.html(html);
                                 $compile(table)(scope);
                                 //scope.$digest();
