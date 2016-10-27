@@ -14,7 +14,7 @@
 'use strict';
 
 (function(window, angular, $) {
-    var LOG = 1;
+    var LOG = 0;
     if (LOG) console.log('TouchBank History MCC');
 
     function _waitDfd(dfd, context, waitFn) {
